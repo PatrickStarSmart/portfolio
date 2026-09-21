@@ -176,48 +176,7 @@
   </main>
 </div>
 
-<script>
-  // Active rail link on scroll
-  const links = document.querySelectorAll('.rail-link');
-  const sections = document.querySelectorAll('main section[id]');
-  const setActive = () => {
-    let current = sections[0]?.id;
-    const y = window.scrollY + 140;
-    sections.forEach(s => { if (s.offsetTop <= y) current = s.id; });
-    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
-  };
-  window.addEventListener('scroll', setActive, { passive: true });
-  setActive();
-
-  // One-time stat count-up when the hero stats enter view
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const statEls = document.querySelectorAll('.stat-num');
-
-  function animateCount(el){
-    const target = parseInt(el.dataset.target, 10);
-    if (reduceMotion) { el.textContent = target; return; }
-    const duration = 900;
-    const start = performance.now();
-    function tick(now){
-      const p = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(eased * target);
-      if (p < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting){
-        animateCount(entry.target);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.4 });
-
-  statEls.forEach(el => observer.observe(el));
-</script>
+<script src="script.js" defer></script>
 
 </body>
 </html>
